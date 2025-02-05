@@ -23,34 +23,32 @@ circle {
     100% { transform: translate(-50%, -50%) rotate(360deg);}
 }
 
-#rotate-LandscaperRequest {
-    display: none;
-    position: absolute;
-    left:0;
-    top:0;
-    background-color: black;
-    width: 100vw;
-    height: 100vh;
-
+#rotate-PortraitRequest {
+  display: none;
+  position: absolute;
+  left:0;
+  top:0;
+  background-color: black;
+  width: 100vw;
+  height: 100vh;
 }
 
-#landscapeGIF {
-    width: 128px;
-    height: 128px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-image: url('RotateToLandscapeIcon.gif');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
+#portraitGIF {
+  width: 128px;
+  height: 128px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url('RotateToPortraitIcon.gif');  /* Ensure you have this icon */
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 }
 
-@media screen and (orientation: portrait) {
-    #rotate-LandscaperRequest {
-        display: var(--rotateRequestDisplay);
-        position: absolute;
-
-      }
+@media screen and (orientation: landscape) {
+  #rotate-PortraitRequest {
+    display: var(--rotateRequestDisplay);
+    position: absolute;
+  }
 }

@@ -17,8 +17,8 @@
         <circle cx="180" cy="180" r="150" stroke-linecap="round"/>
       </svg>
       <div id="unity-warning"> </div>
-        <div id="rotate-LandscaperRequest">
-          <div id="landscapeGIF"></div>
+        <div id="rotate-PortraitRequest">
+          <div id="portraitGIF"></div>
         </div>
       </div>
     <script>
@@ -38,12 +38,6 @@
       var fprogress = 0.0;
       var tprogress = 0.0;
 
-      // Shows a temporary message banner/ribbon for a few seconds, or
-      // a permanent error message on top of the canvas if type=='error'.
-      // If type=='warning', a yellow highlight color is used.
-      // Modify or remove this function to customize the visually presented
-      // way that non-critical warnings and error messages are presented to the
-      // user.
       function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
           warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
@@ -63,11 +57,11 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/PlayStar.loader.js";
+      var loaderUrl = buildUrl + "/mobile.loader.js";
       var config = {
-        dataUrl: buildUrl + "/PlayStar.data",
-        frameworkUrl: buildUrl + "/PlayStar.framework.js",
-        codeUrl: buildUrl + "/PlayStar.wasm",
+        dataUrl: buildUrl + "/mobile.data.unityweb",
+        frameworkUrl: buildUrl + "/mobile.framework.js.unityweb",
+        codeUrl: buildUrl + "/mobile.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "8 Rabbits",
         productName: "Nine Square",
@@ -82,6 +76,8 @@
       function onEventTrigger(event) {
         if(UnityInstance!= null) {
           ProcessMessage(event);
+        }else{
+          console.error("Unity instance is not initialized. Cannot process event:", event.data);
         }
       };
 
@@ -99,14 +95,7 @@
         }
       }
 
-      // By default Unity keeps WebGL canvas render target size matched with
-      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
-      // Set this to false if you want to decouple this synchronization from
-      // happening inside the engine, and you would instead like to size up
-      // the canvas DOM size and WebGL render target sizes yourself.
-      // config.matchWebGLToCanvasSize = false;
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
         var meta = document.createElement('meta');
         meta.name = 'viewport';
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
@@ -136,6 +125,24 @@
         });
       };
       document.body.appendChild(script);
+
+      // Listen for orientation changes
+      window.addEventListener("orientationchange", function() {
+        if (window.orientation == 90 || window.orientation == -90) {
+          // Landscape mode
+          document.querySelector(':root').style.setProperty('--rotateRequestDisplay', 'block');
+        } else {
+          // Portrait mode
+          document.querySelector(':root').style.setProperty('--rotateRequestDisplay', 'none');
+        }
+      });
+
+      // Initial check for orientation
+      if (window.orientation == 90 || window.orientation == -90) {
+        document.querySelector(':root').style.setProperty('--rotateRequestDisplay', 'block');
+      } else {
+        document.querySelector(':root').style.setProperty('--rotateRequestDisplay', 'none');
+      }
     </script>
   </body>
 </html>
